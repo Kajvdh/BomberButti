@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package bomberb1;
+package BomberButti;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;

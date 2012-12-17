@@ -1,4 +1,4 @@
-package bomberb1;
+package BomberButti;
 
 /**
  * De Coord klasse beschrijft een coördinaat van een x,y vlak
