@@ -30,6 +30,7 @@ public class BomberPlayer {
     int direction; //Richting waarin de speler beweegt op het veld (wordt uitgevoerd bij this.act()
     boolean dropBomb; //True als speler een bom wil legggen (wordt uigevoerd bij this.act())
     ArrayList<Bomb> bombs = new ArrayList<Bomb>(); //bijhouden van de gelegde bommen door deze speler
+    String name; //The username of this player
     
     private static final int DIR_UP = 1;
     private static final int DIR_DOWN = 2;
@@ -50,6 +51,7 @@ public class BomberPlayer {
         usedBombs = 0;
         direction = 0;
         dropBomb = false;
+        name = "Unknown player";
     }
     
     /**
@@ -63,6 +65,7 @@ public class BomberPlayer {
         this.id = id;
         this.x = x;
         this.y = y;
+        name = "Player " + id;
     }
     
     /**
@@ -88,6 +91,11 @@ public class BomberPlayer {
     public BomberPlayer(BomberGame game, BomberMap map, int id, int x, int y) {
         this(map, id, x, y);
         this.game = game;
+    }
+    
+    public BomberPlayer(BomberGame game, BomberMap map, int id, int x, int y, String name) {
+        this(game,map,id,x,y);
+        this.name = name;
     }
     
     
