@@ -20,6 +20,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import java.util.*;
 /**
  *
  * @author Kaj
@@ -31,14 +33,21 @@ public class BomberGame extends JPanel implements ActionListener {
     int playersLeft;
     boolean gameOver;
     Timer timer;
+    ArrayList<BomberPlayer> players = new ArrayList<BomberPlayer>();
+    private int idCounter;
     
-    public BomberGame() {;
+    public BomberGame() {
+        idCounter = 0;
         this.map = new BomberMap();
         this.player = new BomberPlayer(this,map,1,1,1);
         timer = new Timer(150, this);
         timer.start(); 
     }
     
+    public int createPlayer(String name) {
+        players.add(new BomberPlayer(this,map,++idCounter,1,1,name));
+        return idCounter;
+    }
     
     /**
      * Wordt uitgevoerd op elke puls van de Timer
