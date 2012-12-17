@@ -1,13 +1,13 @@
 package BomberButti;
-import java.io.*; 
-import java.net.*; 
+import java.io.*;
+import java.net.*;
 import java.util.*; //ArrayList, Iterator
 
 /**
- * BomberServer
- * Hier wordt de Server opgezet waarop Clients kunnen connecteren om vervolgens tegen elkaar te spelen
- * @author Kaj
- */
+* BomberServer
+* Hier wordt de Server opgezet waarop Clients kunnen connecteren om vervolgens tegen elkaar te spelen
+* @author Kaj
+*/
 public class BomberServer {
     BomberGame game;
     BomberMap map;
@@ -19,6 +19,10 @@ public class BomberServer {
         game = new BomberGame();
         
         waitForPlayers();
+        initGame();
+    }
+    public void initGame() {
+        System.out.println ("Er is meer dan 1 speler verbonden");
     }
     
     public void waitForPlayers() throws Exception {
@@ -26,26 +30,26 @@ public class BomberServer {
             DatagramSocket serverSocket = new DatagramSocket(9876); //Socket openen
   
             byte[] receiveData = new byte[1024]; //Ontvangen gegevens
-            byte[] sendData  = new byte[1024];  //Te verzenden gegevens
+            byte[] sendData = new byte[1024]; //Te verzenden gegevens
             
             int assignedId;
             String assignedIdString;
             
-            while(players.size() < 2) {
-                receiveData = new byte[1024]; 
+            while(game.getAmountOfPlayers() < 2) {
+                receiveData = new byte[1024];
 
                 //Ontvangen data (als die er is) ophalen
-                DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length); 
+                DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 
                 System.out.println ("Waiting for players to connect");
 
-                serverSocket.receive(receivePacket); 
+                serverSocket.receive(receivePacket);
 
-                String sentence = new String(receivePacket.getData()); 
+                String sentence = new String(receivePacket.getData());
                 
-                InetAddress IPAddress = receivePacket.getAddress(); 
+                InetAddress IPAddress = receivePacket.getAddress();
 
-                int port = receivePacket.getPort(); 
+                int port = receivePacket.getPort();
                 
                 System.out.println ("From: " + IPAddress + ":" + port);
                 System.out.println ("Username: " + sentence);
@@ -57,20 +61,21 @@ public class BomberServer {
                 
                 sendData = assignedIdString.getBytes();
                 
-                DatagramPacket sendPacket = 
-                   new DatagramPacket(sendData, sendData.length, IPAddress, 
-                                     port); 
+                DatagramPacket sendPacket =
+                   new DatagramPacket(sendData, sendData.length, IPAddress,
+                                     port);
 
-                serverSocket.send(sendPacket); 
+                serverSocket.send(sendPacket);
 
-              } 
+              }
+            System.out.println ("doneeeeee");
         }
         catch(SocketException ex) {
             System.out.println("UDP Port 9876 is occupied.");
             System.exit(1);
         }
     }
-    public static void main(String args[]) throws Exception  {
+    public static void main(String args[]) throws Exception {
         BomberServer server = new BomberServer();
     }
 }

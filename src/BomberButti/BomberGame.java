@@ -1,7 +1,7 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this template, choose Tools | Templates
+* and open the template in the editor.
+*/
 package BomberButti;
 import java.awt.*;
 import java.awt.event.*;
@@ -23,9 +23,9 @@ import javax.swing.Timer;
 
 import java.util.*;
 /**
- *
- * @author Kaj
- */
+*
+* @author Kaj
+*/
 public class BomberGame extends JPanel implements ActionListener {
     BomberMap map;
     BomberPlayer player;
@@ -41,7 +41,7 @@ public class BomberGame extends JPanel implements ActionListener {
         this.map = new BomberMap();
         this.player = new BomberPlayer(this,map,1,1,1);
         timer = new Timer(150, this);
-        timer.start(); 
+        timer.start();
     }
     
     public int createPlayer(String name) {
@@ -49,10 +49,16 @@ public class BomberGame extends JPanel implements ActionListener {
         return idCounter;
     }
     
+    public int getAmountOfPlayers() {
+        return players.size();
+    }
+    
+    
+    
     /**
-     * Wordt uitgevoerd op elke puls van de Timer
-     * @param e 
-     */
+    * Wordt uitgevoerd op elke puls van de Timer
+    * @param e
+    */
     public void actionPerformed(ActionEvent e) {
         map.act();
         player.act();
@@ -60,34 +66,34 @@ public class BomberGame extends JPanel implements ActionListener {
     }
     
     /**
-     * Wordt uitgevoerd wanneer een toets wordt ingedrukt
-     * @param evt 
-     */
+    * Wordt uitgevoerd wanneer een toets wordt ingedrukt
+    * @param evt
+    */
     public void keyPressed(KeyEvent evt) {
         if (player != null)
             player.keyPressed(evt);
     }
     
     /**
-     * Wordt uitgevoerd wanneer een toets wordt losgelaten
-     * @param evt 
-     */
+    * Wordt uitgevoerd wanneer een toets wordt losgelaten
+    * @param evt
+    */
     public void keyReleased(KeyEvent evt) {
         if (player != null)
             player.keyReleased(evt);
     }
     
     /**
-     * Kan worden aangeroepen om het spel te beëindigen
-     */
+    * Kan worden aangeroepen om het spel te beëindigen
+    */
     public void endGame() {
         this.gameOver = true;
     }
     
     /**
-     * Hier gebeurt het wegschrijven naar het scherm
-     * @param g 
-     */
+    * Hier gebeurt het wegschrijven naar het scherm
+    * @param g
+    */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

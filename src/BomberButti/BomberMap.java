@@ -221,6 +221,8 @@ public class BomberMap{
                         k--;
                         if (isStrikable(new Coord(cx,k))) {
                             strikeGrid[cx][k] = true;
+                            if (bGrid[cx][k] != null) //Strike raakt een blokje -> Strike stopt na dit blokje
+                                strikeBlocked = true;
                         }
                         else {
                             strikeBlocked = true;
@@ -236,6 +238,8 @@ public class BomberMap{
                         k++;
                         if (isStrikable(new Coord(cx,k))) {
                             strikeGrid[cx][k] = true;
+                            if (bGrid[cx][k] != null) //Strike raakt een blokje -> Strike stopt na dit blokje
+                                strikeBlocked = true;
                         }
                         else {
                             strikeBlocked = true;
@@ -249,6 +253,8 @@ public class BomberMap{
                         k--;
                         if (isStrikable(new Coord(k,cy))) {
                             strikeGrid[k][cy] = true;
+                            if (bGrid[k][cy] != null) //Strike raakt een blokje -> Strike stopt na dit blokje
+                                strikeBlocked = true;
                         }
                         else {
                             strikeBlocked = true;
@@ -262,6 +268,8 @@ public class BomberMap{
                         k++;
                         if (isStrikable(new Coord(k,cy))) {
                             strikeGrid[k][cy] = true;
+                            if (bGrid[k][cy] != null) //Strike raakt een blokje -> Strike stopt na dit blokje
+                                strikeBlocked = true;
                         }
                         else {
                             strikeBlocked = true;
