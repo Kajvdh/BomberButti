@@ -16,9 +16,9 @@ import java.text.SimpleDateFormat;
  *
  * @author Kaj
  */
-public class BomberB1 extends JFrame {
+public class BomberMain extends JFrame {
     private BomberGame game;
-    public BomberB1() {
+    public BomberMain() {
         game = new BomberGame();
         
         initUI();
@@ -143,7 +143,7 @@ public class BomberB1 extends JFrame {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        BomberB1 main = new BomberB1();
+        BomberMain main = new BomberMain();
         
         
     }
