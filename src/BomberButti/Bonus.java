@@ -2,6 +2,8 @@ package BomberButti;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 
 /**
  * De Bonus klasse beschrijft de mogelijke bonussen die kunnen voorkomen tijdens het spel
@@ -131,10 +133,28 @@ public class Bonus {
      * @param g: Bevat het Graphics object naar waar er getekend moet worde
      */
     public void draw(Graphics g) {
-        g.setColor(Color.BLUE);
+        Image bonusImage;
+        boolean noBonus = false;
+        bonusImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("bonus_speed.gif"));
+                
+        switch(type) {
+            case 1:
+                bonusImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("bonus_bomb.gif"));
+                break;
+            case 2:
+                bonusImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("bonus_expandstrike.gif"));
+                break;
+            case 3:
+                bonusImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("bonus_speed.gif"));
+                break;
+            default:
+                noBonus = true;
+        }
         
-        g.drawRect(this.x*10,this.y*10,this.width,this.height);
-        g.fillRect(this.x*10,this.y*10,this.width,this.height);
+        if (!noBonus)
+            g.drawImage(bonusImage, x*10, y*10, null);
+        
+        
     }
     
 }

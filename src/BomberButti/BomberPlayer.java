@@ -336,12 +336,6 @@ public class BomberPlayer {
         charImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("char.gif")); //Afbeelding inlezen
         g.drawImage(charImage, x*10, y*10, null);
         
-        
-        
-//        g.setColor(Color.CYAN);
-//        g.fillRoundRect(x*10, y*10, 10, 10, 5, 5);
-//        g.setColor(Color.black);
-//        g.drawRoundRect(x*10, y*10, 10, 10, 5, 5);
     }
     
 }
