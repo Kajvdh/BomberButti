@@ -8,6 +8,10 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.lang.Integer;
 import java.io.*;
+import javax.swing.border.*;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 /**
  *
  * @author Kaj
@@ -16,10 +20,16 @@ public class BomberB1 extends JFrame {
     private BomberGame game;
     public BomberB1() {
         game = new BomberGame();
+        
+        initUI();
+        
+        
+        
         add(game);
         setSize(400, 400);
-        setTitle("Bomber");
+        setTitle("BomberButti");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        
         this.show();
         
         
@@ -46,6 +56,86 @@ public class BomberB1 extends JFrame {
     }
     
     
+    public void initUI() {
+        initMenubar();
+        initStatusbar();
+    }
+    
+    public void initMenubar() {
+        /* Menu's declareren & initialiseren */
+        JMenuBar menubar = new JMenuBar(); //Menubar aanmaken
+        JMenu bestand = new JMenu("Bestand"); //Nieuw menu toevoegen
+        JMenu help = new JMenu("Help"); //Menu help toevoegen
+        
+        /* MenuItem's declareren & initialiseren */
+        JMenuItem starten = new JMenuItem("Spel starten");
+        JMenuItem afsluiten = new JMenuItem("Afsluiten");
+        JMenuItem handleiding = new JMenuItem("Handleiding");
+        JMenuItem over = new JMenuItem("Over");
+        
+        /* Tooltips */
+        starten.setToolTipText("Het spel starten");
+        afsluiten.setToolTipText("Het spel afsluiten");
+        
+        
+        /* Event handling */
+        starten.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                game.startGame();
+            }
+        });
+        afsluiten.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                System.exit(1);
+            }
+        });
+        handleiding.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                //handleiding openen
+            }
+        });
+        over.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                //over venster openen
+            }
+        });
+        
+        bestand.add(starten);
+        bestand.add(afsluiten);
+        help.add(handleiding);
+        help.add(over);
+        
+        menubar.add(bestand);
+        menubar.add(help);
+        
+        setJMenuBar(menubar);
+    }
+    
+    public void initStatusbar() {
+        /* Statusbar */
+        
+        final JLabel statusbar = new JLabel(" ");
+        //statusbar.setPreferredSize(new Dimension(10,22));
+        statusbar.setBorder(LineBorder.createGrayLineBorder());
+        statusbar.setHorizontalAlignment(statusbar.RIGHT);
+        
+        /* Content statusbar */
+        
+        final DateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
+        ActionListener timerListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Date datum = new Date();
+                String tijd = timeformat.format(datum);
+                statusbar.setText(tijd);
+            }
+        };
+        
+        Timer timer = new Timer(1000,timerListener);
+        timer.setInitialDelay(0);
+        timer.start();
+        
+        add(statusbar, BorderLayout.SOUTH);
+    }
     
     
     /**

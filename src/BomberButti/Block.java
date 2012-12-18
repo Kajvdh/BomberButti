@@ -15,6 +15,7 @@ import java.lang.Math;
  * @author Kaj
  */
 public class Block {
+    BomberMap map; //Map object
     int x; //X-coördinaat
     int y; //Y-coördinaat
     private int width; //Breedte van het blokje
@@ -155,13 +156,5 @@ public class Block {
             blockImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("staticblock.gif")); //Afbeelding inlezen
         
         g.drawImage(blockImage, x*10, y*10, null);
-        
-        //if (this.destructable)
-        //    g.setColor(Color.gray);
-        //else
-        //    g.setColor(Color.black);
-        //
-        //g.drawRect(this.x*10,this.y*10,this.width,this.height);
-        //g.fillRect(this.x*10,this.y*10,this.width,this.height);
     }
 }

@@ -35,13 +35,21 @@ public class BomberGame extends JPanel implements ActionListener {
     Timer timer;
     ArrayList<BomberPlayer> players = new ArrayList<BomberPlayer>();
     private int idCounter;
-    
+    BomberImages images;
     public BomberGame() {
         idCounter = 0;
-        this.map = new BomberMap();
+        images = new BomberImages();
+        this.map = new BomberMap(this);
         this.player = new BomberPlayer(this,map,1,1,1);
         timer = new Timer(150, this);
+        //timer.start();
+    }
+    
+    public void startGame() {
         timer.start();
+    }
+    public void pauseGame() {
+        timer.stop();
     }
     
     public int createPlayer(String name) {
@@ -53,7 +61,9 @@ public class BomberGame extends JPanel implements ActionListener {
         return players.size();
     }
     
-    
+    public BomberImages getImages() {
+        return images;
+    }
     
     /**
     * Wordt uitgevoerd op elke puls van de Timer

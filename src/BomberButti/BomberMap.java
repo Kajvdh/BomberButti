@@ -17,7 +17,7 @@ import java.util.Iterator;
  * @author Kaj
  */
 public class BomberMap{
-    private BomberB1 main;
+    private BomberGame game;
     private boolean gameOver;
     private Color backgroundColor;
     
@@ -45,6 +45,10 @@ public class BomberMap{
         initBlocks();
         initStrikes();
         initBonuses();
+    }
+    public BomberMap(BomberGame game) {
+        this();
+        this.game = game;
     }
     
     private void initBlocks() {
@@ -320,13 +324,6 @@ public class BomberMap{
     }
     
     public void draw(Graphics g) {
-        //g.setColor(backgroundColor);
-        //g.drawRect(0, 0, 300, 300);
-        //g.fillRect(0,0,300,300);
-        Image strike_mid, strike_hor, strike_ver, charImage;
-        strike_mid = Toolkit.getDefaultToolkit().getImage(getClass().getResource("strike_mid.gif")); //Afbeelding
-        strike_hor = Toolkit.getDefaultToolkit().getImage(getClass().getResource("strike_horizontal.gif")); //Afbeelding
-        strike_ver = Toolkit.getDefaultToolkit().getImage(getClass().getResource("strike_vertical.gif")); //Afbeelding
         /**
          * @todo: Zorgen dat er onderscheid kan gemaakt worden bij strikes:
          * Strike in het centrum moet afbeelding strike_mid krijgen
@@ -358,9 +355,7 @@ public class BomberMap{
         for (int i=0;i<30;i++) {
             for (int j=0;j<30;j++) {
                 if (strikeGrid[i][j]) {
-                    g.drawImage(strike_mid, i*10, j*10, null);
-                    //g.drawRect(i*10, j*10, 10, 10);
-                    //g.fillRect(i*10, j*10, 10, 10);
+                    g.drawImage(game.getImages().getStrikeMid(), i*10, j*10, null);
                 }
             }
         }
