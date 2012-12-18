@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package BomberButti;
 import java.awt.*;
 import java.awt.event.*;
@@ -13,48 +9,59 @@ import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 /**
- *
- * @author Kaj
- */
+*
+* @author Kaj
+*/
 public class BomberMain extends JFrame {
     private BomberGame game;
     public BomberMain() {
-        game = new BomberGame();
-        
         initUI();
         
+        JButton b = new JButton("Start het spel!");
+        
+        b.addActionListener(new ActionListener() {
+           public void actionPerformed(ActionEvent evt) {
+               BomberMain.this.startGame();
+           } 
+        });
+        
+        add(b);
         
         
-        add(game);
         setSize(400, 400);
         setTitle("BomberButti");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         this.show();
         
-        
-        
+    }
+    
+    public void startGame() {
+        hide();
+        getContentPane().removeAll();
+        game = new BomberGame();
+        add(game);
         addKeyListener(new KeyAdapter() {
             /**
-             * Wordt aangeroepen bij het indrukken van een toets
-             * @param evt keyboard event
-             */
+            * Wordt aangeroepen bij het indrukken van een toets
+            * @param evt keyboard event
+            */
             public void keyPressed(KeyEvent evt) {
                 if (game != null)
                     game.keyPressed(evt);
             }
             /**
-             * Wordt aangeroepen bij het loslaten van een toets
-             * @param evt keyboard event
-             */
+            * Wordt aangeroepen bij het loslaten van een toets
+            * @param evt keyboard event
+            */
             public void keyReleased(KeyEvent evt) {
                 if (game != null)
                     game.keyReleased(evt);
             }
         });
-        
+        game.startGame();
+        show();
     }
-    
     
     public void initUI() {
         initMenubar();
@@ -139,12 +146,10 @@ public class BomberMain extends JFrame {
     
     
     /**
-     * @param args the command line arguments
-     */
+* @param args the command line arguments
+*/
     public static void main(String[] args) {
         // TODO code application logic here
         BomberMain main = new BomberMain();
-        
-        
     }
 }

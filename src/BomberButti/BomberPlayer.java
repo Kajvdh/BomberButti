@@ -331,11 +331,7 @@ public class BomberPlayer {
 * @param g: Bevat het Graphics object naar waar er getekend moet worden
 */
     public void draw(Graphics g) {
-        Image charImage;
-        
-        charImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("char.gif")); //Afbeelding inlezen
-        g.drawImage(charImage, x*10, y*10, null);
-        
+        g.drawImage(game.getImages().getPlayer(), x*10, y*10, null);
     }
     
 }

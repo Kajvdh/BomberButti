@@ -42,7 +42,6 @@ public class BomberGame extends JPanel implements ActionListener {
         this.map = new BomberMap(this);
         this.player = new BomberPlayer(this,map,1,1,1);
         timer = new Timer(150, this);
-        //timer.start();
     }
     
     public void startGame() {

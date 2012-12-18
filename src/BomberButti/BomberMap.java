@@ -17,7 +17,7 @@ import java.util.Iterator;
  * @author Kaj
  */
 public class BomberMap{
-    private BomberGame game;
+    public BomberGame game;
     private boolean gameOver;
     private Color backgroundColor;
     
@@ -26,14 +26,11 @@ public class BomberMap{
     
     public int[][] grid;
     public boolean[][] fireGrid;
-    //public BomberBomb[][] bombGrid;
     public boolean[][] strikeGrid;
     public Block[][] bGrid;
     public Bonus[][] bonusGrid;
-    //public BomberBonus[][] bonusGrid;
-    //public Block[][] blockGrid;
     
-    ArrayList<Block> blockGrid = new ArrayList<Block>();
+    
     ArrayList<Bomb> bombGrid = new ArrayList<Bomb>();
     
     public BomberMap() {
@@ -60,34 +57,29 @@ public class BomberMap{
         
         //bovenste rij (x = [0,49] , y=0)
         for (int i = 0; i <= mapWidth-1; i++) {
-            blockGrid.add(new Block(i,0));
-            bGrid[i][0] = new Block(i,0);
+            bGrid[i][0] = new Block(this, i,0);
         }
        
         //onderste rij (x = [0,49] , y=49)
         for (int i = 0; i <= mapWidth-1; i++) {
-            blockGrid.add(new Block(i,mapHeight-1));
-            bGrid[i][mapHeight-1] = new Block(i,mapHeight-1);
+            bGrid[i][mapHeight-1] = new Block(this, i,mapHeight-1);
         }
                 
         //linkse kolom (x = 0, y = [1,49])
         for (int i = 1; i <= mapHeight-1; i++) {
-            blockGrid.add(new Block(0,i));
-            bGrid[0][i] = new Block(0,i);
+            bGrid[0][i] = new Block(this, 0,i);
         }
                 
         //rechtse kolom (x = 49, y = [0,48])
         for (int i = 0; i <= mapHeight-2; i++) {
-            blockGrid.add(new Block(mapWidth-1,i));
-            bGrid[mapWidth-1][i] = new Block(mapWidth-1,i);
+            bGrid[mapWidth-1][i] = new Block(this, mapWidth-1,i);
         }
         
         
         //'tussen' blocks
         for (int i = 2; i <= mapWidth-3; i=i+2) {
             for (int j = 2; j <= mapHeight-3; j=j+2) {
-                blockGrid.add(new Block(i,j));
-                bGrid[i][j] = new Block(i,j);
+                bGrid[i][j] = new Block(this, i,j);
             }
         }
         
@@ -96,7 +88,7 @@ public class BomberMap{
             for (int j = 0; j <= mapHeight-1; j++) {
                 if (!((i<10) && (j<10))) { //spawn hoek vrijhouden
                     if (bGrid[i][j] == null) {
-                        bGrid[i][j] = new Block(i,j,true);
+                        bGrid[i][j] = new Block(this, i,j,true);
                     }
                 }
             }
@@ -174,9 +166,6 @@ public class BomberMap{
             return true;
     }
     
-    public void createBomb(BomberPlayer player, int x, int y) {
-        bombGrid.add(new Bomb(player,x,y));
-    }
     public void createBomb(Bomb b) {
         bombGrid.add(b);
     }
@@ -311,7 +300,7 @@ public class BomberMap{
                     if (bGrid[i][j] != null) { //strike raakt een block
                         if (bGrid[i][j].isDestructable()) { //is normaalgezien altijd
                             bGrid[i][j] = null; //block verwijderen
-                            bonusGrid[i][j] = new Bonus(i,j,true); //bonus element (random)
+                            bonusGrid[i][j] = new Bonus(this, i,j,true); //bonus element (random)
                         }
                     }
                 }
@@ -351,7 +340,7 @@ public class BomberMap{
             i.draw(g);
         }
         
-        g.setColor(Color.magenta);
+        
         for (int i=0;i<30;i++) {
             for (int j=0;j<30;j++) {
                 if (strikeGrid[i][j]) {
@@ -359,8 +348,5 @@ public class BomberMap{
                 }
             }
         }
-        
-        
-        
     }
 }

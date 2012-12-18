@@ -54,6 +54,7 @@ public class Bomb {
         this.player = player;
     }
     
+    
     /**
      * Getfuncties
      * @return 
@@ -130,11 +131,6 @@ public class Bomb {
      * @param g: Bevat het Graphics object naar waar er getekend moet worden
      */
     void draw(Graphics g) {
-        Image bombImage; 
-        bombImage = Toolkit.getDefaultToolkit().getImage("images/bomb.gif"); //Afbeelding inlezen
-        g.drawImage(bombImage, x*10, y*10, null);
-        //g.setColor(Color.red);
-        //g.drawOval(x*10, y*10, 10, 10);
-        //g.fillOval(x*10, y*10, 10, 10);
+        g.drawImage(player.game.getImages().getBomb(), x*10, y*10, null);
     }
 }

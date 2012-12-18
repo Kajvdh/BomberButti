@@ -10,6 +10,7 @@ import java.awt.Toolkit;
  * @author Kaj
  */
 public class Bonus {
+    BomberMap map; //Object van de BomberMap
     int x; //X-coördinaat
     int y; //Y-coördinaat
     int type; //Type van de bonus
@@ -41,6 +42,11 @@ public class Bonus {
         this.y = y;
         if (randomType)
             this.type = setRandomBonusType();
+    }
+    
+    public Bonus(BomberMap map, int x, int y, boolean randomType) {
+        this(x,y,randomType);
+        this.map = map;
     }
     
     
@@ -133,28 +139,26 @@ public class Bonus {
      * @param g: Bevat het Graphics object naar waar er getekend moet worde
      */
     public void draw(Graphics g) {
-        Image bonusImage;
+        Image I;
         boolean noBonus = false;
-        bonusImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("bonus_speed.gif"));
-                
+        I = map.game.getImages().getBonusBomb();
         switch(type) {
             case 1:
-                bonusImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("bonus_bomb.gif"));
+                I = map.game.getImages().getBonusBomb();
                 break;
             case 2:
-                bonusImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("bonus_expandstrike.gif"));
+                I = map.game.getImages().getBonusStrike();
                 break;
             case 3:
-                bonusImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("bonus_speed.gif"));
+                I = map.game.getImages().getBonusSpeed();
                 break;
             default:
                 noBonus = true;
         }
         
         if (!noBonus)
-            g.drawImage(bonusImage, x*10, y*10, null);
-        
-        
+            g.drawImage(I, x*10, y*10, null);
+       
     }
     
 }

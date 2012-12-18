@@ -70,6 +70,14 @@ public class Block {
         this.destructable = destructable;
     }
     
+    public Block(BomberMap map, int x, int y, boolean destructable) {
+        this(x,y,destructable);
+        this.map = map;
+    }
+    public Block(BomberMap map, int x, int y) {
+        this(x,y);
+        this.map = map;
+    }
     
     /**
      * Getfuncties
@@ -149,12 +157,9 @@ public class Block {
      * @param g: Bevat het Graphics object naar waar er getekend moet worden
      */
     public void draw(Graphics g) {
-        Image blockImage; 
         if (this.destructable)
-            blockImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("dynblock.gif")); //Afbeelding inlezen
+            g.drawImage(map.game.getImages().getBlockDyn(), x*10, y*10, null);
         else
-            blockImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("staticblock.gif")); //Afbeelding inlezen
-        
-        g.drawImage(blockImage, x*10, y*10, null);
+            g.drawImage(map.game.getImages().getBlockStat(), x*10, y*10, null);
     }
 }
