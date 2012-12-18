@@ -6,7 +6,9 @@ package BomberButti;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.lang.Math;
 /**
  * De klasse Block beschrijft de blokjes op het scherm, zowel de vaste als de opblaasbare blokjes
@@ -146,12 +148,20 @@ public class Block {
      * @param g: Bevat het Graphics object naar waar er getekend moet worden
      */
     public void draw(Graphics g) {
+        Image blockImage; 
         if (this.destructable)
-            g.setColor(Color.gray);
+            blockImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("dynblock.gif")); //Afbeelding inlezen
         else
-            g.setColor(Color.black);
+            blockImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("staticblock.gif")); //Afbeelding inlezen
         
-        g.drawRect(this.x*10,this.y*10,this.width,this.height);
-        g.fillRect(this.x*10,this.y*10,this.width,this.height);
+        g.drawImage(blockImage, x*10, y*10, null);
+        
+        //if (this.destructable)
+        //    g.setColor(Color.gray);
+        //else
+        //    g.setColor(Color.black);
+        //
+        //g.drawRect(this.x*10,this.y*10,this.width,this.height);
+        //g.fillRect(this.x*10,this.y*10,this.width,this.height);
     }
 }

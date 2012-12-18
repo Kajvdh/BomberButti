@@ -14,7 +14,7 @@ public class Bonus {
     int width; //Breedte
     int height; //Hoogte
     boolean rendeemed; //True als de bonus is opgebruikt
-    
+    private static final int BONUS_AMOUNT = 10;
     /**
      * Default constructor
      */
@@ -48,18 +48,10 @@ public class Bonus {
      */
     public int setRandomBonusType() {
         int minVal = 0; //Minimumwaarde
-        int maxVal = 10; //Maximumwaarde
+        int maxVal = BONUS_AMOUNT; //Maximumwaarde
         int randomVal;
         randomVal = minVal + (int)(Math.random() * ((maxVal - minVal) +1)); //Random getal tussen minimumwaarde en maximumwaarde bepalen
-        int t; //return variabele
-        switch(randomVal) {
-            case 1: //extra bomb
-                t = 1;
-                break;
-            default: //standaard block
-                t = 0;
-        }
-        return t;
+        return randomVal;
     }
     
     /**
@@ -123,9 +115,15 @@ public class Bonus {
             case 1: //extra bomb
                 player.incTotalBombs(1); //totalBombs variabele van de speler met 1 verhogen
                 break;
+            case 2:
+                player.incBombStrike(1); //bombStrike variabele van de speler met 1 verhogen
+                break;
+            case 3:
+                player.incSpeed(1); //speed variabele van de speler met 1 verhogen
+                break;
             default:
         }
-        this.rendeemed = false; //bonus 'waardeloos' maken
+        this.rendeemed = true; //bonus 'waardeloos' maken
     }
     
     /**

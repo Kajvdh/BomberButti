@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package BomberButti;
+import java.awt.*;
 import java.awt.Graphics;
 import java.awt.Color;
 /**
@@ -129,8 +130,11 @@ public class Bomb {
      * @param g: Bevat het Graphics object naar waar er getekend moet worden
      */
     void draw(Graphics g) {
-        g.setColor(Color.red);
-        g.drawOval(x*10, y*10, 10, 10);
-        g.fillOval(x*10, y*10, 10, 10);
+        Image bombImage; 
+        bombImage = Toolkit.getDefaultToolkit().getImage("images/bomb.gif"); //Afbeelding inlezen
+        g.drawImage(bombImage, x*10, y*10, null);
+        //g.setColor(Color.red);
+        //g.drawOval(x*10, y*10, 10, 10);
+        //g.fillOval(x*10, y*10, 10, 10);
     }
 }

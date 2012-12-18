@@ -6,6 +6,8 @@ package BomberButti;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,8 +40,8 @@ public class BomberPlayer {
     private static final int DIR_RIGHT = 4;
     
     /**
-* Default constructor
-*/
+    * Default constructor
+    */
     public BomberPlayer() {
         id = 0;
         x = 0;
@@ -55,11 +57,11 @@ public class BomberPlayer {
     }
     
     /**
-* Constructor
-* @param id: Uniek ID van de speler
-* @param x: X-locatie van de speler
-* @param y: Y-locatie van de speler
-*/
+    * Constructor
+    * @param id: Uniek ID van de speler
+    * @param x: X-locatie van de speler
+    * @param y: Y-locatie van de speler
+    */
     public BomberPlayer(int id, int x, int y) {
         this();
         this.id = id;
@@ -69,25 +71,25 @@ public class BomberPlayer {
     }
     
     /**
-* Constructor
-* @param map: Object van de BomberMap klasse
-* @param id: Uniek ID van de speler
-* @param x: X-locatie van de speler
-* @param y: Y-locatie van de speler
-*/
+    * Constructor
+    * @param map: Object van de BomberMap klasse
+    * @param id: Uniek ID van de speler
+    * @param x: X-locatie van de speler
+    * @param y: Y-locatie van de speler
+    */
     public BomberPlayer(BomberMap map, int id, int x, int y) {
         this(id,x,y);
         this.map = map;
     }
     
     /**
-* Constructor
-* @param game: Object van de BomberGame klasse
-* @param map: Object van de BomberMap klasse
-* @param id: Uniek ID van deze speler
-* @param x: X-locatie van deze speler
-* @param y: Y-locatie van deze speler
-*/
+    * Constructor
+    * @param game: Object van de BomberGame klasse
+    * @param map: Object van de BomberMap klasse
+    * @param id: Uniek ID van deze speler
+    * @param x: X-locatie van deze speler
+    * @param y: Y-locatie van deze speler
+    */
     public BomberPlayer(BomberGame game, BomberMap map, int id, int x, int y) {
         this(map, id, x, y);
         this.game = game;
@@ -100,9 +102,9 @@ public class BomberPlayer {
     
     
     /**
-* Get functies; Zodat externe klasses de variabelen van deze klasse kunnen ophalen
-* @return
-*/
+    * Get functies; Zodat externe klasses de variabelen van deze klasse kunnen ophalen
+    * @return
+    */
     public BomberMap getMap() {
         return this.map;
     }
@@ -117,6 +119,9 @@ public class BomberPlayer {
     }
     public int getY() {
         return this.y;
+    }
+    public Coord getCoords() {
+        return new Coord(this.x,this.y);
     }
     public boolean getIsDead() {
         return this.isDead;
@@ -144,8 +149,8 @@ public class BomberPlayer {
     }
     
     /**
-* Set functies; Zodat externe klasses de variabelen van deze klasses kunnen instellen
-*/
+    * Set functies; Zodat externe klasses de variabelen van deze klasses kunnen instellen
+    */
     public void setMap(BomberMap map) {
         this.map = map;
     }
@@ -187,8 +192,8 @@ public class BomberPlayer {
     }
     
     /**
-* Semi-set functions
-*/
+    * Semi-set functions
+    */
     public void incSpeed(int a) {
         speed = speed+a;
     }
@@ -210,9 +215,9 @@ public class BomberPlayer {
     
     
     /**
-* Wordt uitgevoerd bij het indrukken van een toets
-* @param evt: Bevat informatie ingedrukte toets
-*/
+    * Wordt uitgevoerd bij het indrukken van een toets
+    * @param evt: Bevat informatie ingedrukte toets
+    */
     public void keyPressed(KeyEvent evt) {
         switch (evt.getKeyCode()) { //Switch op basis van ingedrukte toets
             case KeyEvent.VK_UP: //Pijltje omhoog
@@ -235,9 +240,9 @@ public class BomberPlayer {
     }
     
     /**
-* Wordt uitgevoerd bij het loslaten van een toets
-* @param evt: Bevat informatie over de losgelaten toets
-*/
+    * Wordt uitgevoerd bij het loslaten van een toets
+    * @param evt: Bevat informatie over de losgelaten toets
+    */
     public void keyReleased(KeyEvent evt) {
         if ((evt.getKeyCode() == KeyEvent.VK_UP) && (this.direction == 1))
             this.direction = 0;
@@ -254,15 +259,15 @@ public class BomberPlayer {
     
     
     /**
-* Speler wordt 'doodgemaakt'
-*/
+    * Speler wordt 'doodgemaakt'
+    */
     public void kill() {
         this.isDead = true;
     }
     
     /**
-* Wordt bij elke 'timerpulse' uitgevoerd, vanaf hier wordt telkens alles uitgevoerd
-*/
+    * Wordt bij elke 'timerpulse' uitgevoerd, vanaf hier wordt telkens alles uitgevoerd
+    */
     public void act() {
         //Loop door alle bommen die door deze speler zijn gelegd om de ontplofte bommen te verwijderen uit de lijst
         for (Iterator i = bombs.listIterator(); i.hasNext();) {
@@ -279,6 +284,9 @@ public class BomberPlayer {
             game.endGame(); //Game eindigen
         }
         else {
+            //Controle of de speler over een bonus loopt
+            map.checkBonus(this);
+            
             
             //Controle of speler bom wil leggen
             if (dropBomb) { //Speler heeft spatiebalk ingedrukt om bom te leggen
@@ -319,14 +327,21 @@ public class BomberPlayer {
     }
     
     /**
-* Hier wordt de speler naar het programma getekend
-* @param g: Bevat het Graphics object naar waar er getekend moet worden
-*/
+    * Hier wordt de speler naar het programma getekend
+    * @param g: Bevat het Graphics object naar waar er getekend moet worden
+    */
     public void draw(Graphics g) {
-        g.setColor(Color.CYAN);
-        g.fillRoundRect(x*10, y*10, 10, 10, 5, 5);
-        g.setColor(Color.black);
-        g.drawRoundRect(x*10, y*10, 10, 10, 5, 5);
+        Image charImage; 
+        
+        charImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("char.gif")); //Afbeelding inlezen
+        g.drawImage(charImage, x*10, y*10, null);
+        
+        
+        
+//        g.setColor(Color.CYAN);
+//        g.fillRoundRect(x*10, y*10, 10, 10, 5, 5);
+//        g.setColor(Color.black);
+//        g.drawRoundRect(x*10, y*10, 10, 10, 5, 5);
     }
     
 }

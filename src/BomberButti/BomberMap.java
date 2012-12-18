@@ -6,6 +6,8 @@ package BomberButti;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.SwingUtilities;
@@ -175,6 +177,15 @@ public class BomberMap{
         bombGrid.add(b);
     }
     
+    public void checkBonus(BomberPlayer player) {
+        int x = player.getX();
+        int y = player.getY();
+        if (bonusGrid[x][y] != null) { //Er is een bonus op deze locatie -> aan speler geven
+            bonusGrid[x][y].rewardTo(player);
+            bonusGrid[x][y] = null;
+        }
+    }
+    
     
     public void act() {
         //Ontplofte bommen van het grid verwijderen
@@ -312,6 +323,16 @@ public class BomberMap{
         //g.setColor(backgroundColor);
         //g.drawRect(0, 0, 300, 300);
         //g.fillRect(0,0,300,300);
+        Image strike_mid, strike_hor, strike_ver, charImage;
+        strike_mid = Toolkit.getDefaultToolkit().getImage(getClass().getResource("strike_mid.gif")); //Afbeelding
+        strike_hor = Toolkit.getDefaultToolkit().getImage(getClass().getResource("strike_horizontal.gif")); //Afbeelding
+        strike_ver = Toolkit.getDefaultToolkit().getImage(getClass().getResource("strike_vertical.gif")); //Afbeelding
+        /**
+         * @todo: Zorgen dat er onderscheid kan gemaakt worden bij strikes:
+         * Strike in het centrum moet afbeelding strike_mid krijgen
+         * Horizontale strikes: strike_hor
+         * Verticale strikes: strike_vet
+         */
         
         
         for (int i=0;i<30;i++) {
@@ -337,8 +358,9 @@ public class BomberMap{
         for (int i=0;i<30;i++) {
             for (int j=0;j<30;j++) {
                 if (strikeGrid[i][j]) {
-                    g.drawRect(i*10, j*10, 10, 10);
-                    g.fillRect(i*10, j*10, 10, 10);
+                    g.drawImage(strike_mid, i*10, j*10, null);
+                    //g.drawRect(i*10, j*10, 10, 10);
+                    //g.fillRect(i*10, j*10, 10, 10);
                 }
             }
         }
