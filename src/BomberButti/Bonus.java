@@ -158,7 +158,5 @@ public class Bonus {
         
         if (!noBonus)
             g.drawImage(I, x*10, y*10, null);
-       
     }
-    
 }

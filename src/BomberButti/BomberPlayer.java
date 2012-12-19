@@ -33,16 +33,24 @@ public class BomberPlayer {
     boolean dropBomb; //True als speler een bom wil legggen (wordt uigevoerd bij this.act())
     ArrayList<Bomb> bombs = new ArrayList<Bomb>(); //bijhouden van de gelegde bommen door deze speler
     String name; //The username of this player
-    
+    int[] keys;
     private static final int DIR_UP = 1;
     private static final int DIR_DOWN = 2;
     private static final int DIR_LEFT = 3;
     private static final int DIR_RIGHT = 4;
     
+    private static final int UP = 0;
+    private static final int DOWN = 1;
+    private static final int LEFT = 2;
+    private static final int RIGHT = 3;
+    private static final int BOMB = 4;
+    
     /**
 * Default constructor
 */
     public BomberPlayer() {
+        keys = new int[5];
+        
         id = 0;
         x = 0;
         y = 0;
@@ -98,13 +106,24 @@ public class BomberPlayer {
     public BomberPlayer(BomberGame game, BomberMap map, int id, int x, int y, String name) {
         this(game,map,id,x,y);
         this.name = name;
+        this.id = id;
+    }
+    
+    
+    public void loadKeys() {
+        KeyConfig kC = new KeyConfig();
+        keys[UP] = kC.keys[id-1][UP];
+        keys[DOWN] = kC.keys[id-1][DOWN];
+        keys[LEFT] = kC.keys[id-1][LEFT];
+        keys[RIGHT] = kC.keys[id-1][RIGHT];
+        keys[BOMB] = kC.keys[id-1][BOMB];
     }
     
     
     /**
-* Get functies; Zodat externe klasses de variabelen van deze klasse kunnen ophalen
-* @return
-*/
+    * Get functies; Zodat externe klasses de variabelen van deze klasse kunnen ophalen
+    * @return
+    */
     public BomberMap getMap() {
         return this.map;
     }
@@ -219,24 +238,23 @@ public class BomberPlayer {
 * @param evt: Bevat informatie ingedrukte toets
 */
     public void keyPressed(KeyEvent evt) {
-        switch (evt.getKeyCode()) { //Switch op basis van ingedrukte toets
-            case KeyEvent.VK_UP: //Pijltje omhoog
-                this.direction = DIR_UP;
-                break;
-            case KeyEvent.VK_DOWN:
-                this.direction = DIR_DOWN;
-                break;
-            case KeyEvent.VK_LEFT:
-                this.direction = DIR_LEFT;
-                break;
-            case KeyEvent.VK_RIGHT:
-                this.direction = DIR_RIGHT;
-                break;
-            case KeyEvent.VK_SPACE:
-                dropBomb = true;
-                break;
-            default:
+        
+        if (evt.getKeyCode() == keys[UP]) {
+            this.direction = DIR_UP;
         }
+        else if (evt.getKeyCode() == keys[DOWN]) {
+            this.direction = DIR_DOWN;
+        }
+        else if (evt.getKeyCode() == keys[LEFT]) {
+            this.direction = DIR_LEFT;
+        }
+        else if (evt.getKeyCode() == keys[RIGHT]) {
+            this.direction = DIR_RIGHT;
+        }
+        else if (evt.getKeyCode() == keys[BOMB]) {
+            dropBomb = true;
+        }
+        
     }
     
     /**
@@ -244,16 +262,31 @@ public class BomberPlayer {
 * @param evt: Bevat informatie over de losgelaten toets
 */
     public void keyReleased(KeyEvent evt) {
-        if ((evt.getKeyCode() == KeyEvent.VK_UP) && (this.direction == 1))
-            this.direction = 0;
-        if ((evt.getKeyCode() == KeyEvent.VK_DOWN) && (this.direction == 2))
-            this.direction = 0;
-        if ((evt.getKeyCode() == KeyEvent.VK_LEFT) && (this.direction == 3))
-            this.direction = 0;
-        if ((evt.getKeyCode() == KeyEvent.VK_RIGHT) && (this.direction == 4))
-            this.direction = 0;
+//        if ((evt.getKeyCode() == KeyEvent.VK_UP) && (this.direction == 1))
+//            this.direction = 0;
+//        if ((evt.getKeyCode() == KeyEvent.VK_DOWN) && (this.direction == 2))
+//            this.direction = 0;
+//        if ((evt.getKeyCode() == KeyEvent.VK_LEFT) && (this.direction == 3))
+//            this.direction = 0;
+//        if ((evt.getKeyCode() == KeyEvent.VK_RIGHT) && (this.direction == 4))
+//            this.direction = 0;
         //if ((evt.getKeyCode() == KeyEvent.VK_SPACE) && (this.dropBomb == true))
         // this.dropBomb = false;
+        
+        if ((evt.getKeyCode() == keys[UP]) && (direction == DIR_UP)) {
+            direction = 0;
+        }
+        if ((evt.getKeyCode() == keys[DOWN]) && (direction == DIR_DOWN)) {
+            direction = 0;
+        }
+        if ((evt.getKeyCode() == keys[LEFT]) && (direction == DIR_LEFT)) {
+            direction = 0;
+        }
+        if ((evt.getKeyCode() == keys[RIGHT]) && (direction == DIR_RIGHT)) {
+            direction = 0;
+        }
+        
+        
     }
     
     

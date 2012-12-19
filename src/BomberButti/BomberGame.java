@@ -40,7 +40,9 @@ public class BomberGame extends JPanel implements ActionListener {
         idCounter = 0;
         images = new BomberImages();
         this.map = new BomberMap(this);
-        this.player = new BomberPlayer(this,map,1,1,1);
+        //this.player = new BomberPlayer(this,map,1,1,1,"Kaj");
+        initPlayers();
+        //this.player.loadKeys();
         timer = new Timer(150, this);
     }
     
@@ -49,6 +51,14 @@ public class BomberGame extends JPanel implements ActionListener {
     }
     public void pauseGame() {
         timer.stop();
+    }
+    
+    public void initPlayers() {
+        players.add(new BomberPlayer(this,map,1,1,1,"Player 1"));
+        players.add(new BomberPlayer(this,map,2,27,27,"Player 2"));
+        for (BomberPlayer i : players) {
+            i.loadKeys();
+        }
     }
     
     public int createPlayer(String name) {
@@ -70,7 +80,10 @@ public class BomberGame extends JPanel implements ActionListener {
     */
     public void actionPerformed(ActionEvent e) {
         map.act();
-        player.act();
+        for (BomberPlayer i : players) {
+            i.act();
+        }
+        //player.act();
         repaint(); //Opnieuw naar het scherm schrijven
     }
     
@@ -79,8 +92,11 @@ public class BomberGame extends JPanel implements ActionListener {
     * @param evt
     */
     public void keyPressed(KeyEvent evt) {
-        if (player != null)
-            player.keyPressed(evt);
+        //if (player != null)
+        //    player.keyPressed(evt);
+        for (BomberPlayer i : players) {
+            i.keyPressed(evt);
+        }
     }
     
     /**
@@ -88,8 +104,11 @@ public class BomberGame extends JPanel implements ActionListener {
     * @param evt
     */
     public void keyReleased(KeyEvent evt) {
-        if (player != null)
-            player.keyReleased(evt);
+        //if (player != null)
+        //    player.keyReleased(evt);
+        for (BomberPlayer i : players) {
+            i.keyReleased(evt);
+        }
     }
     
     /**
@@ -109,7 +128,10 @@ public class BomberGame extends JPanel implements ActionListener {
         
         if (!gameOver) {
             map.draw(g);
-            player.draw(g);
+            //player.draw(g);
+            for (BomberPlayer i : players) {
+                i.draw(g);
+            }
         }
         else
             g.drawString("Game Over!", 150, 150);

@@ -86,7 +86,7 @@ public class BomberMap{
         //Opblaasbare blocks die bonussen kunnen bevatten
         for (int i = 0; i <= mapWidth-1; i++) {
             for (int j = 0; j <= mapHeight-1; j++) {
-                if (!((i<10) && (j<10))) { //spawn hoek vrijhouden
+                if (((!((i<10) && (j<10)))) && (!((i>18) && (j>18)))) { //spawn hoek vrijhouden
                     if (bGrid[i][j] == null) {
                         bGrid[i][j] = new Block(this, i,j,true);
                     }
