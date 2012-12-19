@@ -166,6 +166,9 @@ public class BomberPlayer {
     public ArrayList<Bomb> getBombs() {
         return this.bombs;
     }
+    public String getName() {
+        return this.name;
+    }
     
     /**
 * Set functies; Zodat externe klasses de variabelen van deze klasses kunnen instellen
@@ -364,7 +367,10 @@ public class BomberPlayer {
 * @param g: Bevat het Graphics object naar waar er getekend moet worden
 */
     public void draw(Graphics g) {
-        g.drawImage(game.getImages().getPlayer(), x*10, y*10, null);
+        if (id == 1)
+            g.drawImage(game.getImages().getPlayer(), x*10, y*10, null);
+        else
+            g.drawImage(game.getImages().getPlayer2(), x*10, y*10, null);
     }
     
 }

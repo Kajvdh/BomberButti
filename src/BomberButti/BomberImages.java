@@ -11,7 +11,7 @@ import javax.swing.*;
  * @author Kaj
  */
 public class BomberImages extends JPanel {
-    Image block_dyn, block_stat, strike_mid, strike_hor, strike_ver, player, bomb, bonus_bomb, bonus_strike, bonus_speed;
+    Image block_dyn, block_stat, strike_mid, strike_hor, strike_ver, player, player2, bomb, bonus_bomb, bonus_strike, bonus_speed;
     MediaTracker tracker;
     public BomberImages() {
         block_dyn = Toolkit.getDefaultToolkit().getImage(getClass().getResource("dynblock.gif"));
@@ -20,6 +20,7 @@ public class BomberImages extends JPanel {
         strike_hor = Toolkit.getDefaultToolkit().getImage(getClass().getResource("strike_horizontal.gif"));
         strike_ver = Toolkit.getDefaultToolkit().getImage(getClass().getResource("strike_vertical.gif"));
         player = Toolkit.getDefaultToolkit().getImage(getClass().getResource("char.gif"));
+        player2 = Toolkit.getDefaultToolkit().getImage(getClass().getResource("char2.gif"));
         bomb = Toolkit.getDefaultToolkit().getImage(getClass().getResource("bomb.gif"));
         bonus_bomb = Toolkit.getDefaultToolkit().getImage(getClass().getResource("bonus_bomb.gif"));
         bonus_strike = Toolkit.getDefaultToolkit().getImage(getClass().getResource("bonus_expandstrike.gif"));
@@ -36,6 +37,7 @@ public class BomberImages extends JPanel {
         tracker.addImage(strike_hor,++i);
         tracker.addImage(strike_ver,++i);
         tracker.addImage(player,++i);
+        tracker.addImage(player2,++i);
         tracker.addImage(bomb,++i);
         tracker.addImage(bonus_bomb,++i);
         tracker.addImage(bonus_strike,++i);
@@ -66,6 +68,9 @@ public class BomberImages extends JPanel {
     }
     public Image getPlayer() {
         return player;
+    }
+    public Image getPlayer2() {
+        return player2;
     }
     public Image getBomb() {
         return bomb;

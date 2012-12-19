@@ -36,24 +36,32 @@ public class BomberGame extends JPanel implements ActionListener {
     ArrayList<BomberPlayer> players = new ArrayList<BomberPlayer>();
     private int idCounter;
     BomberImages images;
+    BomberPlayer winner;
     public BomberGame() {
         idCounter = 0;
         images = new BomberImages();
-        this.map = new BomberMap(this);
-        //this.player = new BomberPlayer(this,map,1,1,1,"Kaj");
-        initPlayers();
-        //this.player.loadKeys();
         timer = new Timer(150, this);
     }
     
+    public void loadGame() {
+        this.map = new BomberMap(this);
+        this.gameOver = false;
+        initPlayers();
+        
+    }
+    
     public void startGame() {
+        timer.stop();
+        loadGame();
         timer.start();
+        
     }
     public void pauseGame() {
         timer.stop();
     }
     
     public void initPlayers() {
+        players.removeAll(players);
         players.add(new BomberPlayer(this,map,1,1,1,"Player 1"));
         players.add(new BomberPlayer(this,map,2,27,27,"Player 2"));
         for (BomberPlayer i : players) {
@@ -79,12 +87,14 @@ public class BomberGame extends JPanel implements ActionListener {
     * @param e
     */
     public void actionPerformed(ActionEvent e) {
-        map.act();
-        for (BomberPlayer i : players) {
-            i.act();
+        if (!gameOver) {
+            map.act();
+            for (BomberPlayer i : players) {
+                i.act();
+            }
+            //player.act();
+            repaint(); //Opnieuw naar het scherm schrijven
         }
-        //player.act();
-        repaint(); //Opnieuw naar het scherm schrijven
     }
     
     /**
@@ -116,24 +126,26 @@ public class BomberGame extends JPanel implements ActionListener {
     */
     public void endGame() {
         this.gameOver = true;
+        for (Iterator i = players.listIterator(); i.hasNext();) {
+            BomberPlayer player = (BomberPlayer) i.next(); 
+                if (!player.getIsDead())
+                    this.winner = player;
+        }
     }
     
     /**
     * Hier gebeurt het wegschrijven naar het scherm
     * @param g
     */
-    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        if (!gameOver) {
-            map.draw(g);
-            //player.draw(g);
-            for (BomberPlayer i : players) {
-                i.draw(g);
-            }
+        map.draw(g);
+        for (BomberPlayer i : players) {
+            i.draw(g);
         }
-        else
-            g.drawString("Game Over!", 150, 150);
+        
+        if (gameOver)
+            g.drawString("Game Over! De winnaar is: " +winner.getName(), 20, 305);
     }
 }

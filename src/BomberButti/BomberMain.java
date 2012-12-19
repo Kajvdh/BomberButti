@@ -8,6 +8,7 @@ import javax.swing.border.*;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.awt.Desktop;
 /**
 *
 * @author Kaj
@@ -65,7 +66,6 @@ public class BomberMain extends JFrame {
     
     public void initUI() {
         initMenubar();
-        initStatusbar();
     }
     
     public void initMenubar() {
@@ -78,12 +78,11 @@ public class BomberMain extends JFrame {
         JMenuItem starten = new JMenuItem("Spel starten");
         JMenuItem afsluiten = new JMenuItem("Afsluiten");
         JMenuItem handleiding = new JMenuItem("Handleiding");
-        JMenuItem over = new JMenuItem("Over");
         
         /* Tooltips */
         starten.setToolTipText("Het spel starten");
         afsluiten.setToolTipText("Het spel afsluiten");
-        
+        handleiding.setToolTipText("De handleiding van het spel openen");
         
         /* Event handling */
         starten.addActionListener(new ActionListener() {
@@ -99,18 +98,20 @@ public class BomberMain extends JFrame {
         handleiding.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 //handleiding openen
-            }
-        });
-        over.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                //over venster openen
+                Desktop dt = Desktop.getDesktop();
+                File f = new File("BomberButti_Manual.chm");
+                try {
+                dt.open(f);
+                }
+                catch(IOException e) {
+                    
+                }
             }
         });
         
         bestand.add(starten);
         bestand.add(afsluiten);
         help.add(handleiding);
-        help.add(over);
         
         menubar.add(bestand);
         menubar.add(help);
@@ -118,31 +119,6 @@ public class BomberMain extends JFrame {
         setJMenuBar(menubar);
     }
     
-    public void initStatusbar() {
-        /* Statusbar */
-        
-        final JLabel statusbar = new JLabel(" ");
-        //statusbar.setPreferredSize(new Dimension(10,22));
-        statusbar.setBorder(LineBorder.createGrayLineBorder());
-        statusbar.setHorizontalAlignment(statusbar.RIGHT);
-        
-        /* Content statusbar */
-        
-        final DateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
-        ActionListener timerListener = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Date datum = new Date();
-                String tijd = timeformat.format(datum);
-                statusbar.setText(tijd);
-            }
-        };
-        
-        Timer timer = new Timer(1000,timerListener);
-        timer.setInitialDelay(0);
-        timer.start();
-        
-        add(statusbar, BorderLayout.SOUTH);
-    }
     
     
     /**
