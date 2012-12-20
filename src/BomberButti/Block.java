@@ -9,7 +9,6 @@ public class Block {
     BomberMap map; //Map object
     int x; //X-coördinaat
     int y; //Y-coördinaat
-    private boolean visible; //True als het blokje zichtbaar moet zijn op de kaart
     private boolean destructable; //True als het blokje kan worden opgeblazen
     
     /**
@@ -19,7 +18,6 @@ public class Block {
         map = null;
         x = 0;
         y = 0;
-        visible = false;
         destructable = false;
     }
     
@@ -53,25 +51,11 @@ public class Block {
         return this.y;
     }
     /**
-     * Getfunctie voor de visible boolean
-     * @return visible
-     */
-    public boolean getVisible() {
-        return this.visible;
-    }
-    /**
      * Getfunctie voor de destructable boolean
      * @return destructable
      */
     public boolean getDestructable() {
         return this.destructable;
-    }
-    /**
-     * Returnt true als het blokje zichtbaar is op de map
-     * @return visible
-     */
-    public boolean isVisible() {
-        return this.getVisible();
     }
     /**
      * Returnt true als het blokje kan worden opgeblazen
@@ -97,13 +81,6 @@ public class Block {
         this.y = y;
     }
     /**
-     * Setfunctie voor de visible boolean
-     * @param visible 
-     */
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
-    /**
      * Setfunctie voor de destructable boolean
      * @param destructable 
      */
@@ -114,13 +91,11 @@ public class Block {
      * Algemene setfunctie waarmee alle variabelen opnieuw ingesteld kunnen worden
      * @param x
      * @param y
-     * @param visible
      * @param destructable 
      */
-    public void setBlock(int x, int y, boolean visible, boolean destructable) {
+    public void setBlock(int x, int y, boolean destructable) {
         this.x = x;
         this.y = y;
-        this.visible = visible;
         this.destructable = destructable;
     }
     

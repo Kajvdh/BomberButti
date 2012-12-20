@@ -375,5 +375,4 @@ public class BomberPlayer {
             g.drawImage(game.getImages().getPlayer2(), x*10, y*10, null);
         }
     }
-    
 }

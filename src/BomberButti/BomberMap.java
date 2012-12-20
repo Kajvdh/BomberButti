@@ -15,7 +15,7 @@ public class BomberMap{
      *
      */
     public boolean[][] strikeGrid; //Grid van de bombstrikes
-    public Block[][] bGrid; //Grid van de blokjes
+    public Block[][] blockGrid; //Grid van de blokjes
     public Bonus[][] bonusGrid; //Grid van de bonussen
     
     ArrayList<Bomb> bombGrid = new ArrayList<>(); //'Grid' (ArrayList) van de bommen
@@ -46,40 +46,40 @@ public class BomberMap{
      * Hier worden de blokjes geïnitialiseerd
      */
     private void initBlocks() {
-        bGrid =  new Block[30][30];
+        blockGrid =  new Block[30][30];
         
         //Grid met 'null' waarden opvullen
         for (int i=0;i<30;i++) {
             for(int j=0;j<30;j++) {
-                bGrid[i][j] = null;
+                blockGrid[i][j] = null;
             }
         }
         
         //bovenste rij vullen met vaste blokjes
         for (int i = 0; i <= mapWidth-1; i++) {
-            bGrid[i][0] = new Block(this, i,0, false);
+            blockGrid[i][0] = new Block(this, i,0, false);
         }
        
         //onderste rij vullen met vaste blokjes
         for (int i = 0; i <= mapWidth-1; i++) {
-            bGrid[i][mapHeight-1] = new Block(this, i,mapHeight-1, false);
+            blockGrid[i][mapHeight-1] = new Block(this, i,mapHeight-1, false);
         }
                 
         //linkse kolom vullen met vaste blokjes
         for (int i = 1; i <= mapHeight-1; i++) {
-            bGrid[0][i] = new Block(this, 0,i, false);
+            blockGrid[0][i] = new Block(this, 0,i, false);
         }
                 
         //rechtse kolom vullen met vaste blokjes
         for (int i = 0; i <= mapHeight-2; i++) {
-            bGrid[mapWidth-1][i] = new Block(this, mapWidth-1,i, false);
+            blockGrid[mapWidth-1][i] = new Block(this, mapWidth-1,i, false);
         }
         
         
         //'tussen' blocks
         for (int i = 2; i <= mapWidth-3; i=i+2) { 
             for (int j = 2; j <= mapHeight-3; j=j+2) {
-                bGrid[i][j] = new Block(this, i,j, false);
+                blockGrid[i][j] = new Block(this, i,j, false);
             }
         }
         
@@ -87,8 +87,8 @@ public class BomberMap{
         for (int i = 0; i <= mapWidth-1; i++) {
             for (int j = 0; j <= mapHeight-1; j++) {
                 if (((!((i<10) && (j<10)))) && (!((i>18) && (j>18)))) { //spawn hoeken linksboven & rechtsonder vrijhouden
-                    if (bGrid[i][j] == null) {
-                        bGrid[i][j] = new Block(this, i,j,true);
+                    if (blockGrid[i][j] == null) {
+                        blockGrid[i][j] = new Block(this, i,j,true);
                     }
                 }
             }
@@ -98,7 +98,7 @@ public class BomberMap{
     /**
      * Strikes initialiseren
      */
-    public void initStrikes() {
+    private void initStrikes() {
         //Grid opvullen met 'null' waarden
         for (int i = 0; i < 30; i++) { 
             for (int j = 0; j < 30; j++) {
@@ -110,7 +110,7 @@ public class BomberMap{
     /**
      * Bonussen initialiseren
      */
-    public void initBonuses() {
+    private void initBonuses() {
         //Grid opvullen met 'null' waarden
         for (int i = 0; i < 30; i++) { 
             for (int j = 0; j < 30; j++) {
@@ -134,7 +134,7 @@ public class BomberMap{
      * @return true als er op de opgegeven locatie een blokje staat
      */
     public boolean isBlock(Coord c) {
-        if (bGrid[c.getX()][c.getY()] != null) {
+        if (blockGrid[c.getX()][c.getY()] != null) {
             return true;
         }
         else {
@@ -175,8 +175,8 @@ public class BomberMap{
      * @return true als de opgegeven locatie door een strike geraakt kan worden
      */
     public boolean isStrikable(Coord c) {
-        if (bGrid[c.getX()][c.getY()] != null) {
-            if (bGrid[c.getX()][c.getY()].isDestructable()) {
+        if (blockGrid[c.getX()][c.getY()] != null) {
+            if (blockGrid[c.getX()][c.getY()].isDestructable()) {
                 return true;
             }
             else {
@@ -274,7 +274,7 @@ public class BomberMap{
                         k--;
                         if (isStrikable(new Coord(cx,k))) {
                             strikeGrid[cx][k] = true;
-                            if (bGrid[cx][k] != null) {
+                            if (blockGrid[cx][k] != null) {
                                 strikeBlocked = true;
                             }
                         }
@@ -292,7 +292,7 @@ public class BomberMap{
                         k++;
                         if (isStrikable(new Coord(cx,k))) {
                             strikeGrid[cx][k] = true;
-                            if (bGrid[cx][k] != null) {
+                            if (blockGrid[cx][k] != null) {
                                 strikeBlocked = true;
                             }
                         }
@@ -308,7 +308,7 @@ public class BomberMap{
                         k--;
                         if (isStrikable(new Coord(k,cy))) {
                             strikeGrid[k][cy] = true;
-                            if (bGrid[k][cy] != null) {
+                            if (blockGrid[k][cy] != null) {
                                 strikeBlocked = true;
                             }
                         }
@@ -324,7 +324,7 @@ public class BomberMap{
                         k++;
                         if (isStrikable(new Coord(k,cy))) {
                             strikeGrid[k][cy] = true;
-                            if (bGrid[k][cy] != null) {
+                            if (blockGrid[k][cy] != null) {
                                 strikeBlocked = true;
                             }
                         }
@@ -350,9 +350,9 @@ public class BomberMap{
                     }
                     
                     //controleren of er blocks zijn geraakt door een strike
-                    if (bGrid[i][j] != null) { //strike raakt een block
-                        if (bGrid[i][j].isDestructable()) { //is normaalgezien altijd
-                            bGrid[i][j] = null; //block verwijderen
+                    if (blockGrid[i][j] != null) { //strike raakt een block
+                        if (blockGrid[i][j].isDestructable()) { //is normaalgezien altijd
+                            blockGrid[i][j] = null; //block verwijderen
                             bonusGrid[i][j] = new Bonus(this, i,j,true); //bonus element (random)
                         }
                     }
@@ -370,6 +370,17 @@ public class BomberMap{
          */
         
         /**
+         * Blokjes tekenen
+         */
+        for (int i = 0; i < 30; i++) {
+            for (int j = 0; j < 30; j++) { 
+                if (blockGrid[i][j] != null) {
+                    blockGrid[i][j].draw(g);
+                }
+            }
+        }
+        
+        /**
          * Bonussen tekenen
          */
         for (int i=0;i<30;i++) { 
@@ -380,17 +391,6 @@ public class BomberMap{
             }
         }
         
-        
-        /**
-         * Blokjes tekenen
-         */
-        for (int i = 0; i < 30; i++) {
-            for (int j = 0; j < 30; j++) { 
-                if (bGrid[i][j] != null) {
-                    bGrid[i][j].draw(g);
-                }
-            }
-        }
         
         /**
          * Bommen tekenen
@@ -408,6 +408,6 @@ public class BomberMap{
                     g.drawImage(game.getImages().getStrikeMid(), i*10, j*10, null);
                 }
             }
-            }
+        }
     }
 }

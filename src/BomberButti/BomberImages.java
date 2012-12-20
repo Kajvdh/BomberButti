@@ -32,7 +32,7 @@ public class BomberImages extends JPanel {
     /**
      * Functie die zorgt dat de afbeeldingen, na uitvoer van deze functie, ook daadwerkelijk zijn ingeladen
      */
-    public void loadImages() {
+    private void loadImages() {
         tracker = new MediaTracker(this);
         int i = 1;
         
