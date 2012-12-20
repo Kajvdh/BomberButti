@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package BomberButti;
 import java.awt.event.KeyEvent;
-import java.io.*;
 /**
- *
- * @author Kaj
+ * De KeyConfig classe stelt de besturingstoetsen voor de verschillende characters in
+ * @author Kaj Van der Hallen
  */
 public class KeyConfig {
     public int keys[][];
@@ -17,11 +12,17 @@ public class KeyConfig {
     int RIGHT = 3;
     int BOMB = 4;
     
+    /**
+     * Default constructor
+     */
     public KeyConfig() {
         initKeys();
     }
     
-    public void initKeys() {
+    /**
+     * Functie waar de array keys wordt ingesteld
+     */
+    private void initKeys() {
         keys = new int[2][5];
         
         /**
@@ -46,10 +47,11 @@ public class KeyConfig {
     
     
     public int[] getKeys(int id) {
-        if (--id == 0) 
+        if (--id == 0) { 
             return keys[0];
-        else
+        }
+        else {
             return keys[1];
+        }
     }
-    
 }

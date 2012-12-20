@@ -1,22 +1,13 @@
-/*
-* To change this template, choose Tools | Templates
-* and open the template in the editor.
-*/
 package BomberButti;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
-import javax.swing.*;
-import javax.swing.SwingUtilities;
+
 /**
 * De klasse BomberPlayer bevat alle gegevens van de speler
 * Elke speler heeft een eigen object van deze klasse
-* @author Kaj
+* @author Kaj Van der Hallen
 */
 public class BomberPlayer {
     BomberMap map; //Bevat het object van de klasse BomberMap
@@ -31,7 +22,7 @@ public class BomberPlayer {
     int usedBombs; //Aantal bommen dat de speler 'tot nu toe' heeft gebruikt
     int direction; //Richting waarin de speler beweegt op het veld (wordt uitgevoerd bij this.act()
     boolean dropBomb; //True als speler een bom wil legggen (wordt uigevoerd bij this.act())
-    ArrayList<Bomb> bombs = new ArrayList<Bomb>(); //bijhouden van de gelegde bommen door deze speler
+    ArrayList<Bomb> bombs = new ArrayList<>(); //bijhouden van de gelegde bommen door deze speler
     String name; //The username of this player
     int[] keys;
     private static final int DIR_UP = 1;
@@ -46,70 +37,46 @@ public class BomberPlayer {
     private static final int BOMB = 4;
     
     /**
-* Default constructor
-*/
+    * Default constructor
+    */
     public BomberPlayer() {
         keys = new int[5];
-        
         id = 0;
         x = 0;
         y = 0;
         isDead = false;
         speed = 1;
         totalBombs = 1;
-        bombStrike = 3;
+        bombStrike = 0;
         usedBombs = 0;
         direction = 0;
         dropBomb = false;
         name = "Unknown player";
     }
     
+    
     /**
-* Constructor
-* @param id: Uniek ID van de speler
-* @param x: X-locatie van de speler
-* @param y: Y-locatie van de speler
-*/
-    public BomberPlayer(int id, int x, int y) {
+    * Constructor
+    * @param game: Object van de BomberGame klasse
+    * @param map: Object van de BomberMap klasse
+    * @param id: Uniek ID van deze speler
+    * @param x: X-locatie van deze speler
+    * @param y: Y-locatie van deze speler
+    */
+    public BomberPlayer(BomberGame game, BomberMap map, int id, int x, int y, String name) {
         this();
+        this.game = game;
+        this.map = map;
         this.id = id;
         this.x = x;
         this.y = y;
-        name = "Player " + id;
-    }
-    
-    /**
-* Constructor
-* @param map: Object van de BomberMap klasse
-* @param id: Uniek ID van de speler
-* @param x: X-locatie van de speler
-* @param y: Y-locatie van de speler
-*/
-    public BomberPlayer(BomberMap map, int id, int x, int y) {
-        this(id,x,y);
-        this.map = map;
-    }
-    
-    /**
-* Constructor
-* @param game: Object van de BomberGame klasse
-* @param map: Object van de BomberMap klasse
-* @param id: Uniek ID van deze speler
-* @param x: X-locatie van deze speler
-* @param y: Y-locatie van deze speler
-*/
-    public BomberPlayer(BomberGame game, BomberMap map, int id, int x, int y) {
-        this(map, id, x, y);
-        this.game = game;
-    }
-    
-    public BomberPlayer(BomberGame game, BomberMap map, int id, int x, int y, String name) {
-        this(game,map,id,x,y);
         this.name = name;
-        this.id = id;
     }
     
     
+    /**
+     * Besturingskeys voor deze speler ophalen uit de KeyConfig classe
+     */
     public void loadKeys() {
         KeyConfig kC = new KeyConfig();
         keys[UP] = kC.keys[id-1][UP];
@@ -121,58 +88,100 @@ public class BomberPlayer {
     
     
     /**
-    * Get functies; Zodat externe klasses de variabelen van deze klasse kunnen ophalen
-    * @return
-    */
+     * Getfunctie voor het object van de map
+     * @return 
+     */
     public BomberMap getMap() {
         return this.map;
     }
+    /**
+     * Getfunctie voor het object van de game
+     * @return 
+     */
     public BomberGame getGame() {
         return this.game;
     }
+    /**
+     * Getfunctie voor het id
+     * @return 
+     */
     public int getId() {
         return this.id;
     }
+    /**
+     * Getfunctie voor de X-coördinaat
+     * @return 
+     */
     public int getX() {
         return this.x;
     }
+    /**
+     * Getfunctie voor de Y-coördinaat
+     * @return 
+     */
     public int getY() {
         return this.y;
     }
+    /**
+     * Getfunctie voor de (x,y) coördinaat
+     * @return 
+     */
     public Coord getCoords() {
         return new Coord(this.x,this.y);
     }
+    /**
+     * Getfunctie voor de isDead boolean
+     * @return 
+     */
     public boolean getIsDead() {
         return this.isDead;
     }
+    /**
+     * Getfunctie voor de speed
+     * @return 
+     */
     public int getSpeed() {
         return this.speed;
     }
+    /**
+     * Getfunctie voor de totalBombs variabele
+     * @return 
+     */
     public int getTotalBombs() {
         return this.totalBombs;
     }
+    /**
+     * Getfunctie voor de bombStrike
+     * @return 
+     */
     public int getBombStrike() {
         return this.bombStrike;
     }
+    /**
+     * Getfunctie voor de usedBombs
+     * @return 
+     */
     public int getUsedBombs() {
         return this.usedBombs;
     }
-    public int getDirection() {
-        return this.direction;
-    }
-    public boolean getDropBomb() {
-        return this.dropBomb;
-    }
+    /**
+     * Getfunctie voor de ArrayList van de bombs die door deze speler zijn gelegd
+     * @return 
+     */
     public ArrayList<Bomb> getBombs() {
         return this.bombs;
     }
+    /**
+     * Getfunctie voor de naam van deze speler
+     * @return 
+     */
     public String getName() {
         return this.name;
     }
     
     /**
-* Set functies; Zodat externe klasses de variabelen van deze klasses kunnen instellen
-*/
+    * Set functies; Zodat externe klasses de variabelen van deze klasses kunnen instellen
+    */
     public void setMap(BomberMap map) {
         this.map = map;
     }
@@ -214,8 +223,8 @@ public class BomberPlayer {
     }
     
     /**
-* Semi-set functions
-*/
+    * Semi-set functions
+    */
     public void incSpeed(int a) {
         speed = speed+a;
     }
@@ -237,9 +246,9 @@ public class BomberPlayer {
     
     
     /**
-* Wordt uitgevoerd bij het indrukken van een toets
-* @param evt: Bevat informatie ingedrukte toets
-*/
+    * Wordt uitgevoerd bij het indrukken van een toets
+    * @param evt: Bevat informatie ingedrukte toets
+    */
     public void keyPressed(KeyEvent evt) {
         
         if (evt.getKeyCode() == keys[UP]) {
@@ -261,21 +270,10 @@ public class BomberPlayer {
     }
     
     /**
-* Wordt uitgevoerd bij het loslaten van een toets
-* @param evt: Bevat informatie over de losgelaten toets
-*/
+    * Wordt uitgevoerd bij het loslaten van een toets
+    * @param evt: Bevat informatie over de losgelaten toets
+    */
     public void keyReleased(KeyEvent evt) {
-//        if ((evt.getKeyCode() == KeyEvent.VK_UP) && (this.direction == 1))
-//            this.direction = 0;
-//        if ((evt.getKeyCode() == KeyEvent.VK_DOWN) && (this.direction == 2))
-//            this.direction = 0;
-//        if ((evt.getKeyCode() == KeyEvent.VK_LEFT) && (this.direction == 3))
-//            this.direction = 0;
-//        if ((evt.getKeyCode() == KeyEvent.VK_RIGHT) && (this.direction == 4))
-//            this.direction = 0;
-        //if ((evt.getKeyCode() == KeyEvent.VK_SPACE) && (this.dropBomb == true))
-        // this.dropBomb = false;
-        
         if ((evt.getKeyCode() == keys[UP]) && (direction == DIR_UP)) {
             direction = 0;
         }
@@ -288,28 +286,27 @@ public class BomberPlayer {
         if ((evt.getKeyCode() == keys[RIGHT]) && (direction == DIR_RIGHT)) {
             direction = 0;
         }
-        
-        
     }
     
     
     
     /**
-* Speler wordt 'doodgemaakt'
-*/
+    * Speler wordt 'doodgemaakt'
+    */
     public void kill() {
         this.isDead = true;
     }
     
     /**
-* Wordt bij elke 'timerpulse' uitgevoerd, vanaf hier wordt telkens alles uitgevoerd
-*/
+    * Wordt bij elke 'timerpulse' uitgevoerd, vanaf hier wordt telkens alles uitgevoerd
+    */
     public void act() {
         //Loop door alle bommen die door deze speler zijn gelegd om de ontplofte bommen te verwijderen uit de lijst
         for (Iterator i = bombs.listIterator(); i.hasNext();) {
             Bomb b = (Bomb) i.next(); //Huidige 'bom' in de loop
-            if (b.isExploded()) //bom ontploft?
-                i.remove(); //y->bom verwijderen
+            if (b.isExploded()) {
+                i.remove();
+            } //y->bom verwijderen
         }
         
         
@@ -339,23 +336,27 @@ public class BomberPlayer {
             switch(direction) {
                 case DIR_UP: //Speler wil zich naar omhoog verplaatsen
                     c.decY(); //Huidige coordinaat 1 vakje omhoog
-                    if (!map.isObstacle(c)) //Is er een obstakel op deze nieuwe locatie?
-                        this.y--; //n->naar omhoog verplaatsen
+                    if (!map.isObstacle(c)) {
+                        this.y--;
+                    } //n->naar omhoog verplaatsen
                     break;
                 case DIR_DOWN: //Speler wil zich naar omlaag verplaatsen
                     c.incY(); //Huidige coördinaat 1 vakje omlaag
-                    if (!map.isObstacle(c)) //Is er een obstakel op deze nieuwe locatie?
-                        this.y++; //n->naar omlaag verplaatsen
+                    if (!map.isObstacle(c)) {
+                        this.y++;
+                    } //n->naar omlaag verplaatsen
                     break;
                 case DIR_LEFT: //Speler wil zich naar links verplaatsen
                     c.decX(); //Huidige coördinaat 1 vakje naar links
-                    if (!map.isObstacle(c)) //Is er een obstakel op deze nieuwe locatie?
-                        this.x--; //n->naar links verplaatsen
+                    if (!map.isObstacle(c)) {
+                        this.x--;
+                    } //n->naar links verplaatsen
                     break;
                 case DIR_RIGHT: //Speler wil zich naar rechts verplaatsen
                     c.incX(); //Huidige coördinaat 1 vakje naar rechts
-                    if (!map.isObstacle(c)) //Is er een obstakel op deze nieuwe locatie?
-                        this.x++; //n->naar rechts verlaatsen
+                    if (!map.isObstacle(c)) {
+                        this.x++;
+                    } //n->naar rechts verlaatsen
                     break;
                 default: //Speler wil zich niet verplaatsen -> niets doen
             }
@@ -363,14 +364,16 @@ public class BomberPlayer {
     }
     
     /**
-* Hier wordt de speler naar het programma getekend
-* @param g: Bevat het Graphics object naar waar er getekend moet worden
-*/
+    * Hier wordt de speler naar het programma getekend
+    * @param g: Bevat het Graphics object naar waar er getekend moet worden
+    */
     public void draw(Graphics g) {
-        if (id == 1)
+        if (id == 1) {
             g.drawImage(game.getImages().getPlayer(), x*10, y*10, null);
-        else
+        }
+        else {
             g.drawImage(game.getImages().getPlayer2(), x*10, y*10, null);
+        }
     }
     
 }

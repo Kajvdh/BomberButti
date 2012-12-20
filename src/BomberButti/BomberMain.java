@@ -1,44 +1,48 @@
 package BomberButti;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
-import java.lang.Integer;
 import java.io.*;
-import javax.swing.border.*;
-import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.awt.Desktop;
+import javax.swing.*;
+
 /**
-*
-* @author Kaj
+* Main klasse
+* @author Kaj Van der Hallen
 */
 public class BomberMain extends JFrame {
-    private BomberGame game;
+    private BomberGame game; //Object van de BomberGame klasse
+    
+    /**
+     * Default constructor
+     */
     public BomberMain() {
-        initUI();
+        initUI(); //Het laden van de User Interface
         
+        
+        /**
+         * Aanmaken van de startbutton
+         */
         JButton b = new JButton("Start het spel!");
-        
         b.addActionListener(new ActionListener() {
-           public void actionPerformed(ActionEvent evt) {
-               BomberMain.this.startGame();
-           } 
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                BomberMain.this.startGame();
+            } 
         });
-        
         add(b);
         
         
         setSize(400, 400);
+        setResizable(false);
         setTitle("BomberButti");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        
-        this.show();
-        
+        show(); //Alles zichtbaar maken
     }
     
+    /**
+     * Functie om het spel te starten
+     */
     public void startGame() {
-        hide();
+        hide(); //Alles verbergen
         getContentPane().removeAll();
         game = new BomberGame();
         add(game);
@@ -47,28 +51,38 @@ public class BomberMain extends JFrame {
             * Wordt aangeroepen bij het indrukken van een toets
             * @param evt keyboard event
             */
+            @Override
             public void keyPressed(KeyEvent evt) {
-                if (game != null)
+                if (game != null) {
                     game.keyPressed(evt);
+                }
             }
             /**
             * Wordt aangeroepen bij het loslaten van een toets
             * @param evt keyboard event
             */
+            @Override
             public void keyReleased(KeyEvent evt) {
-                if (game != null)
+                if (game != null) {
                     game.keyReleased(evt);
+                }
             }
         });
         game.startGame();
         show();
     }
     
-    public void initUI() {
-        initMenubar();
+    /**
+     * Functie om de User Interface te initialiseren
+     */
+    private void initUI() {
+        initMenubar(); //Menubar laden
     }
     
-    public void initMenubar() {
+    /**
+     * Functie om de menubar te initialiseren
+     */
+    private void initMenubar() {
         /* Menu's declareren & initialiseren */
         JMenuBar menubar = new JMenuBar(); //Menubar aanmaken
         JMenu bestand = new JMenu("Bestand"); //Nieuw menu toevoegen
@@ -86,22 +100,25 @@ public class BomberMain extends JFrame {
         
         /* Event handling */
         starten.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 game.startGame();
             }
         });
         afsluiten.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 System.exit(1);
             }
         });
         handleiding.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 //handleiding openen
                 Desktop dt = Desktop.getDesktop();
                 File f = new File("BomberButti_Manual.chm");
                 try {
-                dt.open(f);
+                    dt.open(f);
                 }
                 catch(IOException e) {
                     
@@ -122,8 +139,8 @@ public class BomberMain extends JFrame {
     
     
     /**
-* @param args the command line arguments
-*/
+    * @param args the command line arguments
+    */
     public static void main(String[] args) {
         // TODO code application logic here
         BomberMain main = new BomberMain();
